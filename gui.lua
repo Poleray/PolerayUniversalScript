@@ -1,5 +1,5 @@
 -- gui.lua
--- Исправленная версия с явным указанием Section для каждого элемента
+-- Полностью переработанная версия, совместимая с Rayfield
 
 local GUI = {}
 
@@ -12,27 +12,26 @@ function GUI:CreateWindow(Rayfield)
             Enabled = true,
             FolderName = "UltimateCheat",
             FileName = "Settings"
-        },
-        DisableBuildWarnings = true
+        }
     })
     
-    self.MainTab = Window:CreateTab("Main", 4483362458)
-    self.EspTab = Window:CreateTab("ESP", 4483362458)
-    self.FutureTab = Window:CreateTab("Future", 4483362458)
+    -- Создаём вкладки (без иконок, чтобы не было проблем)
+    self.MainTab = Window:CreateTab("Main")
+    self.EspTab = Window:CreateTab("ESP")
+    self.FutureTab = Window:CreateTab("Future")
     
     return Window
 end
 
 function GUI:BindToggles(Modules)
     -- === MAIN TAB ===
-    local mainSection = self.MainTab:CreateSection("Main Functions")
+    local mainSection = self.MainTab:CreateSection("Основные функции")
     
     self.MainTab:CreateToggle({
         Name = "GodMode",
         CurrentValue = false,
-        Flag = "godmode",
         Section = mainSection,
-        Callback = function(val) 
+        Callback = function(val)
             if Modules.godmode then Modules.godmode.Toggle(val) end
         end
     })
@@ -40,9 +39,8 @@ function GUI:BindToggles(Modules)
     self.MainTab:CreateToggle({
         Name = "NoClip",
         CurrentValue = false,
-        Flag = "noclip",
         Section = mainSection,
-        Callback = function(val) 
+        Callback = function(val)
             if Modules.noclip then Modules.noclip.Toggle(val) end
         end
     })
@@ -50,109 +48,102 @@ function GUI:BindToggles(Modules)
     self.MainTab:CreateToggle({
         Name = "Anti-Hitbox",
         CurrentValue = false,
-        Flag = "antihit",
         Section = mainSection,
-        Callback = function(val) 
+        Callback = function(val)
             if Modules.antihit then Modules.antihit.Toggle(val) end
         end
     })
     
     -- === ESP TAB ===
-    local espMainSection = self.EspTab:CreateSection("ESP Settings")
+    local espMainSection = self.EspTab:CreateSection("Основные настройки")
     
     self.EspTab:CreateToggle({
         Name = "Enable ESP",
         CurrentValue = false,
-        Flag = "esp_toggle",
         Section = espMainSection,
-        Callback = function(val) 
+        Callback = function(val)
             if Modules.esp then Modules.esp.Toggle(val) end
         end
     })
     
-    local espVisualSection = self.EspTab:CreateSection("Visuals")
+    local espVisualSection = self.EspTab:CreateSection("Визуальные настройки")
     
     self.EspTab:CreateColorPicker({
-        Name = "Highlight Color",
+        Name = "Цвет подсветки",
         Color = Color3.fromRGB(255, 0, 0),
-        Flag = "esp_color",
         Section = espVisualSection,
-        Callback = function(color) 
-            if Modules.esp and Modules.esp.SetColor then 
-                Modules.esp.SetColor(color) 
+        Callback = function(color)
+            if Modules.esp and Modules.esp.SetColor then
+                Modules.esp.SetColor(color)
             end
         end
     })
     
     self.EspTab:CreateSlider({
-        Name = "Fill Transparency",
+        Name = "Прозрачность заливки",
         Range = {0, 100},
         Increment = 1,
         Suffix = "%",
         CurrentValue = 50,
-        Flag = "esp_transparency",
         Section = espVisualSection,
-        Callback = function(value) 
-            if Modules.esp and Modules.esp.SetTransparency then 
-                Modules.esp.SetTransparency(value) 
+        Callback = function(value)
+            if Modules.esp and Modules.esp.SetTransparency then
+                Modules.esp.SetTransparency(value)
             end
         end
     })
     
     self.EspTab:CreateSlider({
-        Name = "Outline Thickness",
+        Name = "Толщина обводки",
         Range = {1, 10},
         Increment = 1,
         Suffix = "px",
         CurrentValue = 2,
-        Flag = "esp_outline",
         Section = espVisualSection,
-        Callback = function(value) 
-            if Modules.esp and Modules.esp.SetOutlineThickness then 
-                Modules.esp.SetOutlineThickness(value) 
+        Callback = function(value)
+            if Modules.esp and Modules.esp.SetOutlineThickness then
+                Modules.esp.SetOutlineThickness(value)
             end
         end
     })
     
     -- === FUTURE TAB ===
-    local futureSection = self.FutureTab:CreateSection("Extra Features")
+    local futureSection = self.FutureTab:CreateSection("Эксперименты")
     
     self.FutureTab:CreateButton({
-        Name = "Function 1 (Placeholder)",
+        Name = "Кнопка 1",
         Section = futureSection,
         Callback = function()
-            print("Button 1 clicked")
+            print("Кнопка 1 нажата")
         end
     })
     
     self.FutureTab:CreateButton({
-        Name = "Function 2 (Placeholder)",
+        Name = "Кнопка 2",
         Section = futureSection,
         Callback = function()
-            print("Button 2 clicked")
+            print("Кнопка 2 нажата")
         end
     })
     
     self.FutureTab:CreateToggle({
-        Name = "Example Toggle",
+        Name = "Пример переключателя",
         CurrentValue = false,
-        Flag = "example_toggle",
         Section = futureSection,
         Callback = function(val)
-            print("Example toggle:", val)
+            print("Toggle:", val)
         end
     })
     
     self.FutureTab:CreateSlider({
-        Name = "Example Slider",
+        Name = "Пример слайдера",
         Range = {0, 100},
         Increment = 5,
-        Suffix = "%",
         CurrentValue = 50,
-        Flag = "example_slider",
+        Suffix = "%",
         Section = futureSection,
         Callback = function(val)
-            print("Example slider:", val)
+            print("Slider:", val)
         end
     })
 end
