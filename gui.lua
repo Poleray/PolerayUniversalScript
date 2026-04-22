@@ -59,5 +59,4 @@ function GUI:BindToggles(Modules)
                 Modules.esp.SetTransparency(value)
             end
         end
-    })
-end
+
