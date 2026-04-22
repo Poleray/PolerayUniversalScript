@@ -45,7 +45,7 @@ function GUI:BindToggles(Modules)
     
     -- NoClip
     self.MainTab:CreateToggle({
-        Name = "NoClip (Сквозь стены)",
+        Name = "NoClip",
         CurrentValue = false,
         Flag = "noclip_toggle",
         Callback = function(val) 
